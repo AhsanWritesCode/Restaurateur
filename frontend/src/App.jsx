@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import CustomerPage from './pages/CustomerPage';
+import EmployeePage from './pages/EmployeePage';
 
 const App = () => {
     return (
@@ -17,11 +18,17 @@ const App = () => {
                                 Customer Portal
                             </button>
                         </Link>
+                        <Link to="/employee">
+                            <button className="employee-button">
+                                Employee Portal
+                            </button>
+                        </Link>
                     </div>
                 </header>
 
                 <Routes>
                     <Route path="/customer" element={<CustomerPage />} />
+                    <Route path="/employee" element={<EmployeePage />} />
                 </Routes>
             </div>
         </Router>
