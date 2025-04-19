@@ -6,8 +6,15 @@ const CustomerPage = () => {
 
     return (
         <div className="customer-page">
-            <h1>Customer Portal</h1>
+            {/* Close button styled as a red cross in the top-right corner */}
+            <Link to="/" className="close-btn">
+                &times;
+            </Link>
+
+            {/* Centered and underlined Customer Portal heading */}
+            <h1 className="customer-portal-title">Customer Portal</h1>
             
+            {/* Centered tabs */}
             <div className="customer-tabs">
                 <button 
                     className={`tab ${activeTab === 'menu' ? 'active' : ''}`}
@@ -69,8 +76,6 @@ const CustomerPage = () => {
                     </div>
                 )}
             </div>
-
-            <Link to="/" className="back-link">Close</Link>
         </div>
     );
 };

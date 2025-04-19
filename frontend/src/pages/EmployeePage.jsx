@@ -5,7 +5,7 @@ import axios from 'axios';
 const EmployeePage = () => {
     const [activeTab, setActiveTab] = useState('signin'); // default tab is signin
     const [isLoggedIn, setIsLoggedIn] = useState(false); // default isLoggedIn is false
-    const [employeeData, setEmployeeData] = useState({ // default employee data
+    const [employeeData, setEmployeeData] = useState({
         name: '',
         email: '',
         position: '',
@@ -32,25 +32,34 @@ const EmployeePage = () => {
     }, [activeTab]); // runs every time tab changes
 
     const handleLogin = (e) => {
-        e.preventDefault(); // prevents default form submission behaviour (page reload)
-        setIsLoggedIn(true); // sets isLoggedIn to trues
-        setEmployeeData({ // TODO - this is a placeholder, in final app we will fetch this data from the database
-
+        e.preventDefault();
+        setIsLoggedIn(true);
+        setEmployeeData({
+            name: 'John Doe',
+            email: 'john.doe@example.com',
+            position: 'Manager',
+            phoneNumber: '123-456-7890'
         });
     };
 
     const handleLogout = () => {
-        setIsLoggedIn(false); // sets isLoggedIn to false
-        setActiveTab('signin'); // resets active tab to signin
+        setIsLoggedIn(false);
+        setActiveTab('signin');
     };
 
     return (
         <div className="employee-page">
-            <h1>Employee Portal</h1>
-            
-            {!isLoggedIn ? ( // if not logged in, show login form
+            {/* Close button styled as a red cross in the top-right corner */}
+            <Link to="/" className="close-btn">
+                &times;
+            </Link>
+
+            {/* Centered and underlined Employee Portal heading */}
+            <h1 className="employee-portal-title">Employee Portal</h1>
+
+            {!isLoggedIn ? (
                 <div className="login-section">
-                    <h2>Employee Sign In</h2>
+                    <h2 className="login-title">Employee Sign In</h2>
                     <form className="login-form" onSubmit={handleLogin}>
                         <div className="form-group">
                             <label>Employee ID:</label>
@@ -60,26 +69,26 @@ const EmployeePage = () => {
                             <label>Password:</label>
                             <input type="password" placeholder="Enter your password" required />
                         </div>
-                        <button type="submit">Sign In</button>
+                        <button type="submit" className="login-button">Sign In</button>
                     </form>
                 </div>
-            ) : ( // if logged in, show employee information and tabs
+            ) : (
                 <>
                     {/* TABS */}
                     <div className="employee-tabs">
-                        <button 
+                        <button
                             className={`tab ${activeTab === 'hours' ? 'active' : ''}`}
                             onClick={() => setActiveTab('hours')}
                         >
                             Log Hours
                         </button>
-                        <button 
+                        <button
                             className={`tab ${activeTab === 'profile' ? 'active' : ''}`}
                             onClick={() => setActiveTab('profile')}
                         >
                             My Information
                         </button>
-                        <button 
+                        <button
                             className={`tab ${activeTab === 'inventory' ? 'active' : ''}`}
                             onClick={() => setActiveTab('inventory')}
                         >
@@ -126,29 +135,51 @@ const EmployeePage = () => {
                                 <form className="profile-form">
                                     <div className="form-group">
                                         <label>Name:</label>
-                                        <input type="text" value={employeeData.name} onChange={(e) => setEmployeeData({...employeeData, name: e.target.value})} />
+                                        <input
+                                            type="text"
+                                            value={employeeData.name}
+                                            onChange={(e) =>
+                                                setEmployeeData({ ...employeeData, name: e.target.value })
+                                            }
+                                        />
                                     </div>
                                     <div className="form-group">
                                         <label>Email:</label>
-                                        <input type="email" value={employeeData.email} onChange={(e) => setEmployeeData({...employeeData, email: e.target.value})} />
+                                        <input
+                                            type="email"
+                                            value={employeeData.email}
+                                            onChange={(e) =>
+                                                setEmployeeData({ ...employeeData, email: e.target.value })
+                                            }
+                                        />
                                     </div>
                                     <div className="form-group">
                                         <label>Position:</label>
-                                        <input type="text" value={employeeData.position} onChange={(e) => setEmployeeData({...employeeData, position: e.target.value})} readOnly />
+                                        <input
+                                            type="text"
+                                            value={employeeData.position}
+                                            readOnly
+                                        />
                                     </div>
                                     <div className="form-group">
                                         <label>Phone Number:</label>
-                                        <input type="tel" value={employeeData.phoneNumber} onChange={(e) => setEmployeeData({...employeeData, phoneNumber: e.target.value})} />
+                                        <input
+                                            type="tel"
+                                            value={employeeData.phoneNumber}
+                                            onChange={(e) =>
+                                                setEmployeeData({ ...employeeData, phoneNumber: e.target.value })
+                                            }
+                                        />
                                     </div>
                                     <button type="submit">Update Information</button>
                                 </form>
                             </div>
                         )}
 
-                        {activeTab === 'inventory' && ( 
-                            <div className="inventory-section"> 
+                        {activeTab === 'inventory' && (
+                            <div className="inventory-section">
                                 <h2>Restaurant Inventory</h2>
-                                <table className="inventory-table"> {/* Placeholder table, real table will come from database */}
+                                <table className="inventory-table">
                                     <thead>
                                         <tr>
                                             <th>Item</th>
@@ -169,7 +200,6 @@ const EmployeePage = () => {
                                             <td>Meat</td>
                                             <td>15 lbs</td>
                                             <td>Low Stock</td>
-
                                         </tr>
                                     </tbody>
                                 </table>
@@ -200,11 +230,11 @@ const EmployeePage = () => {
                        )}
                     </div>
 
-                    <button className="logout-button" onClick={handleLogout}>Log Out</button>
+                    <button className="logout-button" onClick={handleLogout}>
+                        Log Out
+                    </button>
                 </>
             )}
-
-            <Link to="/" className="back-link">Close</Link>
         </div>
     );
 };
