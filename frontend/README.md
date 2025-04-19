@@ -21,3 +21,17 @@ Run the web application:
 
 Go to localhost:3000 to view the application
 
+
+
+// For Backend!
+
+   Install Dependancies:
+
+   npm install express mysql cors
+
+   To launch api (needs to be running simultaneously with frontend):
+   
+   cd backend
+   node index.js
+
+Go to (http://localhost:8800/RestaurantTable) to view sample. If you can see the Table values then the API is running successfully!
