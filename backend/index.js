@@ -38,7 +38,7 @@ app.get("/RestaurantTable", (req,res)=>{
     })
 })
 
-// post request to create new values for a table THIS JUST AN EXAMPLE DOnt use this post request
+// post request to create new values for a table THIS JUST AN EXAMPLE DO NOT I REPEAT DO NOT use this post request
 app.post("/RestaurantTable", (req,res)=>{
     const q = "INSERT INTO RestaurantTable (Table_number,Vacancy) VALUES (?)"
     //temp balues

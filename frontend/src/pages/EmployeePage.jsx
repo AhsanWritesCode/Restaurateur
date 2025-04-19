@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const EmployeePage = () => {
     const [activeTab, setActiveTab] = useState('signin'); // default tab is signin
@@ -10,6 +11,25 @@ const EmployeePage = () => {
         position: '',
         phoneNumber: ''
     });
+
+
+    // BRANDON: NEW State tables fetched from backend
+    const [tables, setTables] = useState([]);
+
+    // BRANDON: useEffect to fetch tables when "view Tables" tab is active
+    useEffect(() => {
+        if (activeTab === 'viewTables') {
+            const fetchTables = async () => {
+                try {
+                    const res = await axios.get("http://localhost:8800/RestaurantTable"); // API needs to be running
+                    setTables(res.data); // save data to the state
+                } catch (err) {
+                    console.error("Failed to fetch tables", err);
+                }
+            };
+            fetchTables();
+        }
+    }, [activeTab]); // runs every time tab changes
 
     const handleLogin = (e) => {
         e.preventDefault(); // prevents default form submission behaviour (page reload)
@@ -45,6 +65,7 @@ const EmployeePage = () => {
                 </div>
             ) : ( // if logged in, show employee information and tabs
                 <>
+                    {/* TABS */}
                     <div className="employee-tabs">
                         <button 
                             className={`tab ${activeTab === 'hours' ? 'active' : ''}`}
@@ -64,6 +85,13 @@ const EmployeePage = () => {
                         >
                             Inventory
                         </button>
+
+                        <button 
+                            className={`tab ${activeTab === 'viewTables' ? 'active' : ''}`} 
+                            onClick={() => setActiveTab('viewTables')}>
+                                View Tables
+                        </button>
+
                     </div>
 
                     <div className="tab-content">
@@ -148,6 +176,28 @@ const EmployeePage = () => {
                                 <button className="request-button">Request Restock</button>
                             </div>
                         )}
+                        {/* BRANDON Implmented new table tab from mysql db */}
+                        {activeTab === 'viewTables' && (
+                            <div className="view-tables-section">
+                                <h2>Restaurant Tables</h2>
+                                <table className="table-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Table Number</th>
+                                            <th>Vacancy</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {tables.map((table, index) => (
+                                            <tr key={index}>
+                                                <td>{table.Table_number}</td>
+                                                <td>{table.Vacancy ? "Available" : "Occupied"}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                       )}
                     </div>
 
                     <button className="logout-button" onClick={handleLogout}>Log Out</button>
@@ -160,4 +210,3 @@ const EmployeePage = () => {
 };
 
 export default EmployeePage;
-

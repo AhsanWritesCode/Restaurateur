@@ -14,6 +14,7 @@ Clone the repository:
 Install dependencies:
 
    npm install
+   npm install axios react-router-dom
 
 Run the web application:
 
