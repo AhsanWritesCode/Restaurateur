@@ -139,7 +139,7 @@ p {
   }
 }
 
-/* Close button styled as a red cross in the top-right corner */
+/* Close button */
 .close-btn {
     position: absolute;
     top: 10px;
@@ -151,7 +151,7 @@ p {
     cursor: pointer;
 }
 
-/* Center and underline the Customer Portal heading */
+/* Customer Portal heading */
 .customer-portal-title {
     text-align: center;
     text-decoration: underline;
@@ -159,7 +159,7 @@ p {
     font-size: 2rem;
 }
 
-/* Center the tabs */
+/* tabs */
 .customer-tabs {
     display: flex;
     justify-content: center;
@@ -186,7 +186,7 @@ p {
     background-color: #e0e0e0;
 }
 
-/* Employee Portal title */
+/* Employee Portal */
 .employee-portal-title {
     text-align: center;
     text-decoration: underline;
@@ -194,7 +194,7 @@ p {
     font-size: 2rem;
 }
 
-/* Login section styling */
+/* Login  */
 .login-section {
     max-width: 400px;
     margin: 50px auto;
@@ -244,7 +244,7 @@ p {
     background-color: #0056b3;
 }
 
-/* Tabs styling */
+/* Tabs  */
 .employee-tabs {
     display: flex;
     justify-content: center;
@@ -302,7 +302,7 @@ p {
   margin-top: 20px;
 }
 
-/*popup overlay */
+/* popup */
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -316,7 +316,6 @@ p {
     z-index: 1000;
 }
 
-/* Popup content */
 .popup-content {
     background: white;
     padding: 20px;

@@ -58,12 +58,12 @@ const EmployeePage = () => {
 
     return (
         <div className="employee-page">
-            {/* Close button styled as a red cross in the top-right corner */}
+            {/* Close button */}
             <Link to="/" className="close-btn">
                 &times;
             </Link>
 
-            {/* Centered and underlined Employee Portal heading */}
+            {/* Employee Portal heading */}
             <h1 className="employee-portal-title">Employee Portal</h1>
 
             {!isLoggedIn ? (
@@ -239,7 +239,7 @@ const EmployeePage = () => {
                        )}
                     </div>
 
-                    {/* Popup Modal */}
+                    {/* Popup */}
                     {showPopup && (
                         <div className="popup-overlay">
                             <div className="popup-content">

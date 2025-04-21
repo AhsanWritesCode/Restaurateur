@@ -6,15 +6,15 @@ const CustomerPage = () => {
 
     return (
         <div className="customer-page">
-            {/* Close button styled as a red cross in the top-right corner */}
+            {/* Close button */}
             <Link to="/" className="close-btn">
                 &times;
             </Link>
 
-            {/* Centered and underlined Customer Portal heading */}
+            {/* Customer Portal heading */}
             <h1 className="customer-portal-title">Customer Portal</h1>
             
-            {/* Centered tabs */}
+            {/* Tabs */}
             <div className="customer-tabs">
                 <button 
                     className={`tab ${activeTab === 'menu' ? 'active' : ''}`}
