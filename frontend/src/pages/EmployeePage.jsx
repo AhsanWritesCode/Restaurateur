@@ -11,7 +11,16 @@ const EmployeePage = () => {
         position: '',
         phoneNumber: ''
     });
+    const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
 
+    const handleUpdate = (e) => {
+        e.preventDefault();
+        setShowPopup(true); // Show the popup
+    };
+
+    const closePopup = () => {
+        setShowPopup(false); // Close the popup
+    };
 
     // BRANDON: NEW State tables fetched from backend
     const [tables, setTables] = useState([]);
@@ -132,7 +141,7 @@ const EmployeePage = () => {
                         {activeTab === 'profile' && (
                             <div className="profile-section">
                                 <h2>Your Information</h2>
-                                <form className="profile-form">
+                                <form className="profile-form" onSubmit={handleUpdate}>
                                     <div className="form-group">
                                         <label>Name:</label>
                                         <input
@@ -229,6 +238,19 @@ const EmployeePage = () => {
                             </div>
                        )}
                     </div>
+
+                    {/* Popup Modal */}
+                    {showPopup && (
+                        <div className="popup-overlay">
+                            <div className="popup-content">
+                                <h2>Success</h2>
+                                <p>Information updated successfully!</p>
+                                <button onClick={closePopup} className="close-popup-button">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    )}
 
                     <button className="logout-button" onClick={handleLogout}>
                         Log Out

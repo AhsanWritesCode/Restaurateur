@@ -72,7 +72,7 @@ const CustomerPage = () => {
                 {activeTab === 'parking' && (
                     <div className="parking-section">
                         <h2>Available Parking</h2>
-                        <p>Parking information will be displayed here...</p>
+                        <p><strong>50</strong> parking spots available.</p>
                     </div>
                 )}
             </div>
