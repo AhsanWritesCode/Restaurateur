@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import RestockLedger from './RestockLedger';
+import RestockLedger from './EmployeeRestock';
+import './EmployeeInventory.css'; 
 
 const EmployeeInventory = () => {
     const [ingredients, setIngredients] = useState([]);

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import CustomerReservation from './CustomerReservations'; // ✅ Import it
 import ViewReservation from './viewReservation';  // Importing as PascalCase
+import './CustomerPortal.css'; 
 
 const CustomerPage = () => {
     const [activeTab, setActiveTab] = useState('menu');

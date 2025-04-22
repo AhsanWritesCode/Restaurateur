@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './EmployeeRestock.css'; 
 
 const RestockLedger = ({ onBack }) => {
     const [suppliers, setSuppliers] = useState([]);

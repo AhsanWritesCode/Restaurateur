@@ -1,4 +1,3 @@
-/* Reset default styles */
 * {
   margin: 0; 
   padding: 0;
@@ -6,92 +5,9 @@
   font-family: Arial, sans-serif;
 }
 
-/* Make global background color white */
 body {
   background-color: #f5f5f5;
 }
-
-/* HomePage styles */
-.home-page {
-  /* Ensure homepage is at least as tall as viewport */
-  min-height: 100vh;
-  /* Add space around home page content */
-  padding: 20px;
-  text-align: center;
-}
-
-
-.home-content {
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.hero-section {
-  margin: 50px 0;
-}
-
-.hero-section h1 {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.portal-cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  margin: 30px 0;
-}
-
-.portal-card {
-  flex: 1;
-  min-width: 250px;
-  max-width: 400px;
-  padding: 25px;
-  border-radius: 8px;
-  text-decoration: none;
-  color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s;
-}
-
-.portal-card:hover {
-  transform: translateY(-5px);
-}
-
-.customer-card {
-  background-color: #4a6da7;
-}
-
-.employee-card {
-  background-color: #5a4a9c;
-}
-
-.card-content h2 {
-  margin-bottom: 10px;
-  font-size: 1.5rem;
-}
-
-.card-content p {
-  margin-bottom: 20px;
-}
-
-.card-button {
-  display: inline-block;
-  padding: 8px 15px;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  margin-top: 10px;
-}
-
-.home-footer {
-  margin-top: 40px;
-  padding: 15px 0;
-  color: #777;
-  font-size: 0.9rem;
-}
-
 
 button {
   cursor: pointer;
@@ -100,20 +16,6 @@ button {
   border: none;
   font-weight: bold;
   transition: background-color 0.2s;
-}
-
-.container {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.card {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin-bottom: 20px;
 }
 
 input, select, textarea {
@@ -133,215 +35,69 @@ p {
   line-height: 1.5;
 }
 
-@media (max-width: 768px) {
-  .portal-card {
-    min-width: 100%;
-  }
-}
-
-/* Close button */
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    color: red;
-    text-decoration: none;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-/* Customer Portal heading */
-.customer-portal-title {
-    text-align: center;
-    text-decoration: underline;
-    margin-top: 50px;
-    font-size: 2rem;
-}
-
-/* tabs */
-.customer-tabs {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin: 20px 0;
-}
-
-.tab {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    background-color: #f0f0f0;
-    transition: background-color 0.3s;
-}
-
-.tab.active {
-    background-color: #007bff;
-    color: white;
-}
-
-.tab:hover {
-    background-color: #e0e0e0;
-}
-
-/* Employee Portal */
-.employee-portal-title {
-    text-align: center;
-    text-decoration: underline;
-    margin-top: 50px;
-    font-size: 2rem;
-}
-
-/* Login  */
-.login-section {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.login-title {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-}
-
-.login-form .form-group {
-    margin-bottom: 15px;
-}
-
-.login-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.login-form input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.login-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.login-button:hover {
-    background-color: #0056b3;
-}
-
-/* Tabs  */
-.employee-tabs {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin: 20px 0;
-}
-
-.tab {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    background-color: #f0f0f0;
-    transition: background-color 0.3s;
-}
-
-.tab.active {
-    background-color: #007bff;
-    color: white;
-}
-
-.tab:hover {
-    background-color: #e0e0e0;
-}
-
-.employee-page {
-  padding: 0 5% 2rem; /* Keep just the padding for spacing */
+.container {
+  padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.inventory-table,
-.table-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
-.inventory-table th,
-.table-table th,
-.inventory-table td,
-.table-table td {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
+.tab {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  background-color: #f0f0f0;
+  transition: background-color 0.3s;
 }
 
+.tab.active {
+  background-color: #007bff;
+  color: white;
+}
 
-.tab-content {
-  padding: 0 15px;
+.tab:hover {
+  background-color: #e0e0e0;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  color: red;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .logout-button {
   margin-top: 20px;
 }
 
-/* popup */
-.popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.popup-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 300px;
-}
-
-.popup-content h2 {
-    margin: 0 0 10px;
-}
-
-.popup-content p {
-    margin: 0 0 20px;
-}
-
-.close-popup-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
+.tab {
     padding: 10px 20px;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 1rem;
+    background-color: #f0f0f0;
+    transition: background-color 0.3s;
 }
 
-.close-popup-button:hover {
-    background-color: #0056b3;
+.tab.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.tab:hover {
+    background-color: #e0e0e0;
 }

@@ -1,0 +1,13 @@
+.customer-portal-title {
+    text-align: center;
+    text-decoration: underline;
+    margin-top: 50px;
+    font-size: 2rem;
+}
+
+.customer-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+}

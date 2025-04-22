@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import './EmployeePortal.css'; 
 
 import EmployeeLogin from './EmployeeLogin';
 import EmployeeTabs from './EmployeeTabs';

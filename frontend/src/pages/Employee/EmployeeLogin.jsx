@@ -1,4 +1,5 @@
 import React from 'react';
+import './EmployeeLogin.css'; 
 
 const EmployeeLogin = ({ loginData, setLoginData, handleLogin }) => (
     <div className="login-section">

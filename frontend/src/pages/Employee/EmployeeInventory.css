@@ -1,0 +1,16 @@
+.inventory-table,
+.table-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.inventory-table th,
+.table-table th,
+.inventory-table td,
+.table-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
