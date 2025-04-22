@@ -1,0 +1,104 @@
+.time-grid, .table-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.time-slot-btn, .table-btn {
+    padding: 12px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+.time-slot-btn:hover, .table-btn:hover {
+    background-color: #eaeaea;
+}
+
+.time-slot-btn.selected, .table-btn.selected {
+    background-color: #4caf50;
+    color: white;
+    font-weight: bold;
+}
+
+.submit-btn {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #115293;
+}
+
+.select-table-heading {
+    margin-top: 20px;
+}
+
+
+.table-btn.disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    border: 1px solid #aaa;
+}
+
+.form-group {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="tel"],
+.form-group input[type="number"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    border-color: #1976d2;
+}
+
+.form-group.checkbox {
+    margin-top: 10px;
+    flex-direction: row;
+    align-items: center;
+}
+
+.form-group.checkbox label {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    gap: 8px;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.submit-btn:disabled {
+    background-color: #aaa;
+    cursor: not-allowed;
+}

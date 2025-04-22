@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import CustomerReservation from './CustomerReservations'; // ✅ Import it
+import ViewReservation from './viewReservation';  // Importing as PascalCase
 
 const CustomerPage = () => {
     const [activeTab, setActiveTab] = useState('menu');
 
     return (
         <div className="customer-page">
-            {/* Close button */}
-            <Link to="/" className="close-btn">
-                &times;
-            </Link>
-
-            {/* Customer Portal heading */}
+            <Link to="/" className="close-btn">&times;</Link>
             <h1 className="customer-portal-title">Customer Portal</h1>
-            
+
             {/* Tabs */}
             <div className="customer-tabs">
                 <button 
@@ -34,8 +31,15 @@ const CustomerPage = () => {
                 >
                     Parking Available
                 </button>
+                <button 
+                    className={`tab ${activeTab === 'viewEdit' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('viewEdit')}
+                >
+                    View/Edit Reservation
+                </button>
             </div>
 
+            {/* Tab Content */}
             <div className="tab-content">
                 {activeTab === 'menu' && (
                     <div className="menu-section">
@@ -44,30 +48,9 @@ const CustomerPage = () => {
                     </div>
                 )}
 
-                {activeTab === 'reservations' && (
-                    <div className="reservation-section">
-                        <h2>Make a Reservation</h2>
-                        <form className="reservation-form">
-                            <div className="form-group">
-                                <label>Name:</label>
-                                <input type="text" placeholder="Your name" />
-                            </div>
-                            <div className="form-group">
-                                <label>Date:</label>
-                                <input type="date" />
-                            </div>
-                            <div className="form-group">
-                                <label>Time:</label>
-                                <input type="time" />
-                            </div>
-                            <div className="form-group">
-                                <label>Number of Guests:</label>
-                                <input type="number" min="1" max="20" />
-                            </div>
-                            <button type="submit">Book Reservation</button>
-                        </form>
-                    </div>
-                )}
+                {activeTab === 'reservations' && <CustomerReservation />}
+
+                {activeTab === 'viewEdit' && <ViewReservation />} {/* View/Edit Reservation tab */}
 
                 {activeTab === 'parking' && (
                     <div className="parking-section">

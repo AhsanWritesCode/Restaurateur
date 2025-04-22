@@ -1,59 +1,35 @@
-import express from "express"
-import mysql from "mysql"
-import cors from "cors"
+// index.js
+import express from "express";
+import cors from "cors";
+import restaurantTableRoutes from "./routes/restaurantTable.js";
+import loginRoutes from "./routes/login.js";
+import shiftRoutes from "./routes/shift.js";
+import employeeRoutes from "./routes/employee.js";
+import inventoryRoutes from "./routes/inventory.js"
+import restockRoutes from './routes/restock.js';
+import customerRoutes from './routes/customer.js'
+import reservationRoutes from "./routes/reservations.js"
 
-const app = express()
-app.use(express.json())
-app.use(cors())
+const app = express();
 
+app.use(express.json());
+app.use(cors());
 
+// Routes
+app.use("/RestaurantTable", restaurantTableRoutes);
+app.use("/employee/login", loginRoutes);
+app.use("/shifts", shiftRoutes);
+app.use("/employees", employeeRoutes);
+app.use("/inventory", inventoryRoutes);
+app.use('/restock-ledger', restockRoutes);
+app.use('/customer',customerRoutes);
+app.use('/reservations', reservationRoutes);
 
-// this section is for the api
+// Root test route
+app.get("/", (req, res) => {
+    res.json("Hello, this is the backendAPI!");
+});
 
-const db = mysql.createConnection({
-    host:"restauranteur.cra828c66kkd.us-east-2.rds.amazonaws.com",
-    user:"admin",
-    password:"Group23r_",
-    database:"RestauranteurDB"
-})
-
-// mainpage
-app.get("/",(req,res)=>{
-    res.json("Hello, this is the backendAPI!")
-})
-
-
-// get request to grab values from a table i break it down to see 
-// how majorty of the requests works we just need a shit ton of these for each table
-
-// chooses ResturantTable table (lol) from db
-app.get("/RestaurantTable", (req,res)=>{
-    //call an sql query
-    const q = "SELECT * FROM RestaurantTable"
-    // this is just an error check if query fails
-    db.query(q,(err,data)=>{
-        if(err) return res.json(err)
-        //return error reason
-        return res.json(data)
-    })
-})
-
-// post request to create new values for a table THIS JUST AN EXAMPLE DO NOT I REPEAT DO NOT use this post request
-app.post("/RestaurantTable", (req,res)=>{
-    const q = "INSERT INTO RestaurantTable (Table_number,Vacancy) VALUES (?)"
-    //temp balues
-    const values = [3,0]
-
-    db.query(q,[values], (err,data)=>{
-        if(err) return res.json(err)
-        return res.json("Table has been added created succcessfully!")
-    })
-    
-})
-
-//TODO delete + edit api functions
-
-// ensure connection is established on its own port
-app.listen(8800, ()=>{
-    console.log("Connected to backend!")
-})
+app.listen(8800, () => {
+    console.log("Connected to backend!");
+});
