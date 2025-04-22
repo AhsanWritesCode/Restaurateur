@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './LogHours.css'; 
 
 const LogHours = ({ shiftData, setShiftData, employeeId }) => {
     const [shifts, setShifts] = useState([]);
@@ -110,11 +111,14 @@ const LogHours = ({ shiftData, setShiftData, employeeId }) => {
                 <button type="submit">Submit Hours</button>
             </form>
 
-            <h3>Your Previously Logged Shifts</h3>
-            <table>
+            {}
+            <br />
+
+            <h3>Previously Logged Shifts</h3>
+            <table className="log-hours-table">
                 <thead>
                     <tr>
-                        <th></th> {/* Add a "Delete" column */}
+                        <th>Delete</th>
                         <th>Date</th>
                         <th>Start Time</th>
                         <th>End Time</th>
@@ -125,14 +129,14 @@ const LogHours = ({ shiftData, setShiftData, employeeId }) => {
                 <tbody>
                     {shifts.map((shift) => (
                         <tr key={shift.Shift_ID}>
-                            {/* Delete button */}
                             <td>
-                                <button onClick={() => handleDelete(shift.Shift_ID)}>Delete</button>
+                                <button className="delete-button" onClick={() => handleDelete(shift.Shift_ID)}>
+                                    Delete
+                                </button>
                             </td>
-                            {/* Formatting Date and Time */}
                             <td>{new Date(shift.TimeIn).toLocaleDateString()}</td>
-                            <td>{new Date(shift.TimeIn).toLocaleTimeString()}</td>
-                            <td>{new Date(shift.TimeOut).toLocaleTimeString()}</td>
+                            <td>{new Date(shift.TimeIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                            <td>{new Date(shift.TimeOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
                             <td>{shift.HoursWorked}</td>
                             <td>{shift.Notes}</td>
                         </tr>

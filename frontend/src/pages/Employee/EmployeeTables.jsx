@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import './EmployeeTables.css'; 
 
 const EmployeeTables = ({ tables, setTables, newTable, setNewTable }) => {
 
@@ -95,7 +96,12 @@ const EmployeeTables = ({ tables, setTables, newTable, setNewTable }) => {
                             <td>{table.Vacancy ? "Available" : "Occupied"}</td>
                             <td>
                                 <button onClick={() => handleToggleVacancy(table.Table_number, table.Vacancy)}>Toggle Vacancy</button>
-                                <button onClick={() => handleDeleteTable(table.Table_number)}>Delete</button>
+                                <button
+                                    className="delete-button"
+                                    onClick={() => handleDeleteTable(table.Table_number)}
+                                >
+                                    Delete
+                                </button>
                             </td>
                         </tr>
                     ))}
