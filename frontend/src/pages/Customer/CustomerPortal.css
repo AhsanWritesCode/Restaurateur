@@ -1,3 +1,9 @@
+.customer-page {
+    padding: 0 5% 2rem; /* Keep just the padding for spacing */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .customer-portal-title {
     text-align: center;
     text-decoration: underline;
