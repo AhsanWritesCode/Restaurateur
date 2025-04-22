@@ -117,11 +117,6 @@ const EmployeePage = () => {
             ) : (
                 <>
                     <EmployeeTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-                    {(employeeData.position === 'Admin' || employeeData.position === 'Manager') && (
-                        <button onClick={() => setActiveTab('managerTools')} className="tab-button">
-                            Manager Tools
-                        </button>
-                    )}
                     <div className="tab-content">
                         {activeTab === 'hours' && (
                             <LogHours shiftData={shiftData} setShiftData={setShiftData} employeeId={employeeID} />
@@ -142,7 +137,15 @@ const EmployeePage = () => {
                             <ManagerTools />
                         )}
                     </div>
-                    <button className="logout-button" onClick={handleLogout}>Log Out</button>
+                    
+                    <div className="bottom-buttons">
+                        {(employeeData.position === 'Admin' || employeeData.position === 'Manager') && (
+                            <button onClick={() => setActiveTab('managerTools')} className="manager-button">
+                                Manager Tools
+                            </button>
+                        )}
+                        <button className="logout-button" onClick={handleLogout}>Log Out</button>
+                    </div>
                 </>
             )}
         </div>

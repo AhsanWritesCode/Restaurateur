@@ -11,6 +11,14 @@
     font-size: 2rem;
 }
 
+ h2 {
+    color: #333;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 10px;
+  }
+
 .employee-tabs {
     display: flex;
     justify-content: center;
@@ -18,3 +26,10 @@
     margin: 20px 0;
 }
 
+.bottom-buttons {
+    gap: 15px;
+}
+
+.manager-button {
+    margin-right: 15px; /* Adds space to the right of the manager button */
+}
