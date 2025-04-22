@@ -7,4 +7,5 @@
 
 .delete-button:hover {
     background-color: red;
+    color: white;
 }
