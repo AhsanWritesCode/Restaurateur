@@ -76,6 +76,7 @@ const EmployeeParking = () => {
                     <label>Space Number:</label>
                     <input
                         type="number"
+                        min="0" 
                         value={spaceNumber}
                         onChange={(e) => setSpaceNumber(e.target.value)}
                     />
