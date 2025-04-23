@@ -5,7 +5,7 @@ const EmployeeTabs = ({ activeTab, setActiveTab, employeeData }) => (
         <button className={`tab ${activeTab === 'hours' ? 'active' : ''}`} onClick={() => setActiveTab('hours')}>Log Hours</button>
         <button className={`tab ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => setActiveTab('profile')}>My Info</button>
         <button className={`tab ${activeTab === 'inventory' ? 'active' : ''}`} onClick={() => setActiveTab('inventory')}>Inventory</button>
-        <button className={`tab ${activeTab === 'orderMenu' ? 'active' : ''}`} onClick={() => setActiveTab('orderMenu')}>Server Order</button>
+        <button className={`tab ${activeTab === 'orderMenu' ? 'active' : ''}`} onClick={() => setActiveTab('orderMenu')}>Create Order</button>
         <button className={`tab ${activeTab === 'viewTables' ? 'active' : ''}`} onClick={() => setActiveTab('viewTables')}>View Tables</button>
         <button className={`tab ${activeTab === 'bartenderWindow' ? 'active' : ''}`} onClick={() => setActiveTab('bartenderWindow')}>Bartender Window</button>
         <button className={`tab ${activeTab === 'cookWindow' ? 'active' : ''}`} onClick={() => setActiveTab('cookWindow')}>Cook Window</button>

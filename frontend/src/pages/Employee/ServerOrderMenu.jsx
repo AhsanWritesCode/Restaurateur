@@ -162,7 +162,7 @@ const ServerOrderMenu = () => {
 
   return (
     <div className="server-order-menu">
-      <h2>Server Order Menu</h2>
+      <h2>Create Order</h2>
       <div className="table-selector">
         <h3>Select a Table</h3>
         <div className="table-buttons">
