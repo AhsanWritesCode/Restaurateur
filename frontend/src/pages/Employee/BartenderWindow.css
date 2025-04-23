@@ -1,0 +1,90 @@
+.bartender-window {
+    padding: 20px;
+}
+
+.title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    gap: 12px; /* tighter spacing between boxes */
+}
+
+.order-box {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    height: 260px; /* make boxes taller */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 0.85rem; /* slightly smaller text */
+}
+
+.box-content p {
+    margin: 4px 0;
+}
+
+.box-content ul {
+    padding-left: 16px;
+    margin-top: 6px;
+    margin-bottom: 10px;
+}
+
+.box-content li {
+    margin-bottom: 4px;
+}
+
+.complete-button {
+    margin-top: auto;
+    align-self: center;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.complete-button:disabled {
+    background-color: #aaa;
+    cursor: default;
+}
+
+.view-past-orders-button {
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.view-past-orders-button:hover {
+    background-color: #45a049;
+}
+
+.view-past-orders-button {
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.view-past-orders-button:hover {
+    background-color: #45a049;
+}

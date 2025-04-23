@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import CustomerReservation from './CustomerReservations'; // ✅ Import it
-import ViewReservation from './viewReservation';  // Importing as PascalCase
-import './CustomerPortal.css'; 
+import CustomerReservation from './CustomerReservations';
+import ViewReservation from './viewReservation';
+import Menu from './menu';
+import CustomerParking from './CustomerParking'; // ✅ Import the actual parking component
+import './CustomerPortal.css';
 
 const CustomerPage = () => {
     const [activeTab, setActiveTab] = useState('menu');
@@ -42,23 +44,10 @@ const CustomerPage = () => {
 
             {/* Tab Content */}
             <div className="tab-content">
-                {activeTab === 'menu' && (
-                    <div className="menu-section">
-                        <h2>Our Menu</h2>
-                        <p>Menu items will be displayed here...</p>
-                    </div>
-                )}
-
+                {activeTab === 'menu' && <Menu />}
                 {activeTab === 'reservations' && <CustomerReservation />}
-
-                {activeTab === 'viewEdit' && <ViewReservation />} {/* View/Edit Reservation tab */}
-
-                {activeTab === 'parking' && (
-                    <div className="parking-section">
-                        <h2>Available Parking</h2>
-                        <p><strong>50</strong> parking spots available.</p>
-                    </div>
-                )}
+                {activeTab === 'viewEdit' && <ViewReservation />}
+                {activeTab === 'parking' && <CustomerParking />} {/* ✅ Show the parking table */}
             </div>
         </div>
     );

@@ -1,0 +1,24 @@
+.customer-parking {
+    padding: 20px;
+}
+
+.customer-parking h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.customer-parking table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.customer-parking th,
+.customer-parking td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.customer-parking th {
+    background-color: #f2f2f2;
+}

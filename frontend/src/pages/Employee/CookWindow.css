@@ -1,0 +1,41 @@
+.employee-tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab {
+    background-color: #e2e2e2;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.tab:hover {
+    background-color: #d1d1d1;
+}
+
+.tab.active {
+    background-color: #4caf50;
+    color: white;
+}
+
+.employee-page {
+    padding: 40px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.employee-portal-title {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.tab-content {
+    margin-top: 30px;
+}

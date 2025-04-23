@@ -10,6 +10,16 @@ import restockRoutes from './routes/restock.js';
 import customerRoutes from './routes/customer.js'
 import reservationRoutes from "./routes/reservations.js"
 
+import drinksRoutes from "./routes/drinks.js"
+import dishesRoutes from "./routes/dishes.js"
+
+import restaurantOrderRoutes from "./routes/RestaurantOrder.js"
+
+import Contains_dishesRoutes from "./routes/Contains_dishes.js"
+import Contains_drinksRoutes from "./routes/Contains_drinks.js"
+
+import parkingRoutes from "./routes/ParkingSpace.js"
+
 const app = express();
 
 app.use(express.json());
@@ -24,6 +34,16 @@ app.use("/inventory", inventoryRoutes);
 app.use('/restock-ledger', restockRoutes);
 app.use('/customer',customerRoutes);
 app.use('/reservations', reservationRoutes);
+
+app.use('/drinks', drinksRoutes);
+app.use('/dishes', dishesRoutes);
+
+app.use('/RestaurantOrder', restaurantOrderRoutes);
+
+app.use('/Contains_drinks',Contains_drinksRoutes);
+app.use('/Contains_dishes',Contains_dishesRoutes);
+
+app.use('/ParkingSpace', parkingRoutes);
 
 // Root test route
 app.get("/", (req, res) => {

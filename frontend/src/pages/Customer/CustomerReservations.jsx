@@ -6,12 +6,12 @@ const CustomerReservations = () => {
     const [selectedTime, setSelectedTime] = useState('');
     const [selectedTable, setSelectedTable] = useState(null);
     const [tables, setTables] = useState([]);
+    const [reservations, setReservations] = useState([]);
 
     // Form Fields
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [guests, setGuests] = useState('');
-    const [wantsParking, setWantsParking] = useState(false);
 
     const timeSlots = Array.from({ length: 12 }, (_, i) => {
         const hour = 11 + i;
@@ -29,28 +29,54 @@ const CustomerReservations = () => {
                 console.error("Failed to fetch tables:", err);
             }
         };
+
+        const fetchReservations = async () => {
+            try {
+                const res = await axios.get("http://localhost:8800/reservations");
+                setReservations(res.data);
+            } catch (err) {
+                console.error("Failed to fetch reservations:", err);
+            }
+        };
+
         fetchTables();
+        fetchReservations();
     }, []);
 
     const isFormValid = selectedTime && selectedTable && name && phone && guests;
 
-    // Helper function to calculate the Time_in and Time_out
+    const convertTo24Hour = (time) => {
+        const [t, modifier] = time.split(" ");
+        let [hours, minutes] = t.split(":");
+        hours = parseInt(hours);
+        if (modifier === "PM" && hours !== 12) hours += 12;
+        if (modifier === "AM" && hours === 12) hours = 0;
+        return `${hours.toString().padStart(2, '0')}:${minutes}`;
+    };
+
+    const isTableReservedAtTime = (tableNumber) => {
+        const selectedTime24h = convertTo24Hour(selectedTime);
+        return reservations.some(res => {
+            const resTime = new Date(res.Time_in).toTimeString().slice(0, 5);
+            return (
+                res.Table_number === tableNumber &&
+                resTime === selectedTime24h
+            );
+        });
+    };
+
     const calculateTimeOut = (timeStr) => {
-        const [hourStr, minuteStr] = timeStr.split(":");
-        const [hour, suffix] = hourStr.trim().split(" ");
-        const isPM = suffix === 'PM';
-        let hours = parseInt(hour);
-        if (isPM && hours < 12) hours += 12;
-        if (!isPM && hours === 12) hours -= 12;
+        const [time, modifier] = timeStr.split(" ");
+        let [hours, minutes] = time.split(":");
+        hours = parseInt(hours);
+        if (modifier === "PM" && hours !== 12) hours += 12;
+        if (modifier === "AM" && hours === 12) hours = 0;
 
-        const timeIn = new Date();
-        timeIn.setHours(hours);
-        timeIn.setMinutes(parseInt(minuteStr.trim()));
-        timeIn.setSeconds(0);
+        minutes = parseInt(minutes);
 
-        // Assuming a 2-hour duration for the reservation
-        const timeOut = new Date(timeIn);
-        timeOut.setHours(timeIn.getHours() + 2);
+        const now = new Date();
+        const timeIn = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0));
+        const timeOut = new Date(timeIn.getTime() + 2 * 60 * 60 * 1000);
 
         return { timeIn, timeOut };
     };
@@ -58,48 +84,35 @@ const CustomerReservations = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!isFormValid) return;
-    
+
         try {
-            // Step 1: Get or create customer
             const customerRes = await axios.post("http://localhost:8800/customer", {
                 name,
                 phone,
             });
-    
+
             const customerID = customerRes.data.Customer_ID;
-    
-            // Step 2: Calculate Time_in and Time_out
             const { timeIn, timeOut } = calculateTimeOut(selectedTime);
-    
-            // Step 3: (Optional) You can add reservation logic here if needed later
-    
-            // Step 4: Book the reservation
-            const parkingSpot = wantsParking ? 1 : null; // Assuming 1 if parking is selected, null otherwise
+
             const reservationData = {
                 Customer_ID: customerID,
                 Table_number: selectedTable,
-                Parking_spot: parkingSpot,
-                Time_in: timeIn.toISOString(),  // Convert to ISO format
-                Time_out: timeOut.toISOString(), // Convert to ISO format
+                Time_in: timeIn.toISOString(),
+                Time_out: timeOut.toISOString(),
                 Number_Guests: guests,
             };
-    
+
             console.log("Reservation Payload:", reservationData);
-            
-            // Step 5: Send reservation data to create reservation
+
             const res = await axios.post("http://localhost:8800/reservations", reservationData);
-    
-            // Show confirmation with reservation ID
+
             alert(`Reservation confirmed at ${selectedTime} for Table ${selectedTable}.
-    Name: ${name}
-    Phone: ${phone}
-    Guests: ${guests}
-    Parking: ${wantsParking ? "Yes" : "No"}
-    Reservation ID: ${res.data.reservation_id}`);
-    
-            // Optionally redirect the user to home page after booking
-            window.location.href = '/';  // This will redirect to the home page
-    
+Name: ${name}
+Phone: ${phone}
+Guests: ${guests}
+Reservation ID: ${res.data.reservation_id}`);
+
+            window.location.href = '/';
         } catch (err) {
             console.error("Error submitting reservation:", err);
             alert("There was a problem submitting your reservation.");
@@ -110,7 +123,6 @@ const CustomerReservations = () => {
         <div className="reservation-section">
             <h2>Select Reservation Time</h2>
             <form className="reservation-form" onSubmit={handleSubmit}>
-                {/* Time Buttons */}
                 <div className="time-grid">
                     {timeSlots.map((time) => (
                         <button
@@ -127,31 +139,32 @@ const CustomerReservations = () => {
                     ))}
                 </div>
 
-                {/* Table Buttons */}
                 {selectedTime && (
                     <>
                         <h3 className="select-table-heading">Select Table</h3>
                         <div className="table-grid">
-                            {tables.map((table) => (
-                                <button
-                                    key={table.Table_number}
-                                    type="button"
-                                    className={`table-btn 
-                                        ${selectedTable === table.Table_number ? 'selected' : ''} 
-                                        ${table.Vacancy ? '' : 'disabled'}`}
-                                    onClick={() => {
-                                        if (table.Vacancy) setSelectedTable(table.Table_number);
-                                    }}
-                                    disabled={!table.Vacancy}
-                                >
-                                    Table {table.Table_number}
-                                </button>
-                            ))}
+                            {tables.map((table) => {
+                                const reserved = isTableReservedAtTime(table.Table_number);
+                                return (
+                                    <button
+                                        key={table.Table_number}
+                                        type="button"
+                                        className={`table-btn 
+                                            ${selectedTable === table.Table_number ? 'selected' : ''} 
+                                            ${reserved ? 'disabled' : ''}`}
+                                        onClick={() => {
+                                            if (!reserved) setSelectedTable(table.Table_number);
+                                        }}
+                                        disabled={reserved}
+                                    >
+                                        Table {table.Table_number}
+                                    </button>
+                                );
+                            })}
                         </div>
                     </>
                 )}
 
-                {/* User Info Form */}
                 {selectedTime && selectedTable && (
                     <>
                         <div className="form-group">
@@ -185,20 +198,9 @@ const CustomerReservations = () => {
                                 required
                             />
                         </div>
-                        <div className="form-group checkbox">
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    checked={wantsParking}
-                                    onChange={() => setWantsParking(!wantsParking)}
-                                />
-                                Opt-in for parking
-                            </label>
-                        </div>
                     </>
                 )}
 
-                {/* Submit Button */}
                 {selectedTime && (
                     <button type="submit" className="submit-btn" disabled={!isFormValid}>
                         Book Reservation

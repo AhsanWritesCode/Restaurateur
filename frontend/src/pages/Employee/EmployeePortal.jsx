@@ -10,6 +10,13 @@ import EmployeeProfile from './EmployeeProfile';
 import EmployeeInventory from './EmployeeInventory';
 import EmployeeTables from './EmployeeTables';
 import ManagerTools from './ManagerTools';
+import ServerOrderMenu from './ServerOrderMenu';
+import BartenderWindow from './bartenderWindow'
+import CookWindow from './cookWindow'
+import EditReservation from './editReservation';
+import EmployeeParking from './EmployeeParking';
+
+
 
 const EmployeePage = () => {
     const [activeTab, setActiveTab] = useState('signin');
@@ -27,6 +34,7 @@ const EmployeePage = () => {
     const [employeeID, setEmployeeID] = useState(''); // Store the employeeId as a string
     const [tables, setTables] = useState([]);
     const [newTable, setNewTable] = useState({ tableNumber: '', vacancy: 1 });
+    
 
     //INFO WIP
     useEffect(() => {
@@ -111,12 +119,12 @@ const EmployeePage = () => {
         <div className="employee-page">
             <Link to="/" className="close-btn">&times;</Link>
             <h1 className="employee-portal-title">Employee Portal</h1>
-
+    
             {!isLoggedIn ? (
                 <EmployeeLogin loginData={loginData} setLoginData={setLoginData} handleLogin={handleLogin} />
             ) : (
                 <>
-                    <EmployeeTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+                    <EmployeeTabs activeTab={activeTab} setActiveTab={setActiveTab} employeeData={employeeData} />
                     <div className="tab-content">
                         {activeTab === 'hours' && (
                             <LogHours shiftData={shiftData} setShiftData={setShiftData} employeeId={employeeID} />
@@ -124,32 +132,23 @@ const EmployeePage = () => {
                         {activeTab === 'profile' && (
                             <EmployeeProfile employeeData={employeeData} setEmployeeData={setEmployeeData} handleUpdate={handleUpdateInfo} />
                         )}
-                        {activeTab === 'inventory' && (
-                            <EmployeeInventory />
+                        {activeTab === 'inventory' && <EmployeeInventory />}
+                        {activeTab === 'viewTables' && (
+                            <EmployeeTables tables={tables} setTables={setTables} newTable={newTable} setNewTable={setNewTable} />
                         )}
-                        {activeTab === 'viewTables' && <EmployeeTables
-                            tables={tables}
-                            setTables={setTables}
-                            newTable={newTable}
-                            setNewTable={setNewTable}
-                        />}
-                        {activeTab === 'managerTools' && (
-                            <ManagerTools />
-                        )}
-                    </div>
-                    
-                    <div className="bottom-buttons">
-                        {(employeeData.position === 'Admin' || employeeData.position === 'Manager') && (
-                            <button onClick={() => setActiveTab('managerTools')} className="manager-button">
-                                Manager Tools
-                            </button>
-                        )}
-                        <button className="logout-button" onClick={handleLogout}>Log Out</button>
+                        {activeTab === 'managerTools' && <ManagerTools />}
+                        {activeTab === 'orderMenu' && <ServerOrderMenu serverId={employeeID} />}
+                        {activeTab === 'bartenderWindow' && <BartenderWindow />}
+                        {activeTab === 'cookWindow' && <CookWindow />}
+                        {activeTab === 'editReservations' && <EditReservation />}
+                        {activeTab === 'parkingManagement' && <EmployeeParking />} {/* New Parking Tab */}
+
                     </div>
                 </>
             )}
         </div>
     );
+    
 };
 
 export default EmployeePage;
