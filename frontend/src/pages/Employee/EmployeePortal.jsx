@@ -16,6 +16,7 @@ import EditReservation from './editReservation';
 import EmployeeParking from './EmployeeParking';
 import CustomerHistory from './CustomerHistory';
 import BartenderCertifications from './bartenderCertifications';
+import ManagerTools from './ManagerTools';
 
 
 
@@ -90,7 +91,7 @@ const EmployeePage = () => {
         e.preventDefault();
         try {
             const res = await axios.post('http://localhost:8800/employee/login', loginData);
-            const emp = res.data.employee; // 👈 pull from correct spot
+            const emp = res.data.employee; // pull from correct spot
 
             console.log("Employee Role:", emp.Role); // confirm it's Admin or Manager
             setEmployeeData({

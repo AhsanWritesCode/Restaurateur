@@ -72,5 +72,6 @@ The backend connects to a MySQL database hosted on Amazon AWS: restauranteur.cra
 
 ## Authors
 
-Developed by AhsanWritesCode  
-GitHub: https://github.com/AhsanWritesCode
+Developed by AhsanWritesCode || Brandon-Do-git || d-kaur
+GitHub: https://github.com/AhsanWritesCode || https://github.com/Brandon-Do-git || https://github.com/d-kaur
+University of Calgary 2025 CPSC 471 Group 23

@@ -24,21 +24,41 @@ router.post('/', async (req, res) => {
     });
 });
 
-// DELETE employee and related bartender certificate
+// DELETE employee and all related records manually
 router.delete('/:id', (req, res) => {
-    const deleteCertQuery = "DELETE FROM Bartender_certificates WHERE EID = ?";
-    const deleteEmpQuery = "DELETE FROM Employee WHERE Employee_ID = ?";
+    const eid = req.params.id;
 
-    db.query(deleteCertQuery, [req.params.id], (err, certResult) => {
-        if (err) return res.status(500).json({ error: "Error deleting certification" });
+    const deleteQueries = [
+        // Delete bartender certificates
+        { query: "DELETE FROM Bartender_certificates WHERE EID = ?", params: [eid] },
+        // Delete shifts
+        { query: "DELETE FROM Shifts WHERE EID = ?", params: [eid] },
+        // Delete orders where the employee was the server
+        { query: "DELETE FROM RestaurantOrder WHERE Server_ID = ?", params: [eid] },
+        // Finally, delete the employee record
+        { query: "DELETE FROM Employee WHERE Employee_ID = ?", params: [eid] }
+    ];
 
-        db.query(deleteEmpQuery, [req.params.id], (err, empResult) => {
-            if (err) return res.status(500).json({ error: "Error deleting employee" });
-            res.json("Employee and certification deleted.");
+    const executeQueries = (index = 0) => {
+        if (index >= deleteQueries.length) {
+            return res.json({ message: "Employee and all related records deleted successfully." });
+        }
+
+        const { query, params } = deleteQueries[index];
+        db.query(query, params, (err) => {
+            if (err) {
+                return res.status(500).json({ 
+                    error: `Error executing query at step ${index + 1}`,
+                    query,
+                    details: err 
+                });
+            }
+            executeQueries(index + 1);
         });
-    });
-});
+    };
 
+    executeQueries();
+});
 
 
 
