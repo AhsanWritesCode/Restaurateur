@@ -3,6 +3,7 @@ import axios from 'axios';
 import './CustomerReservation.css';
 
 const CustomerReservations = () => {
+    const [selectedDate, setSelectedDate] = useState('');
     const [selectedTime, setSelectedTime] = useState('');
     const [selectedTable, setSelectedTable] = useState(null);
     const [tables, setTables] = useState([]);
@@ -43,7 +44,7 @@ const CustomerReservations = () => {
         fetchReservations();
     }, []);
 
-    const isFormValid = selectedTime && selectedTable && name && phone && guests;
+    const isFormValid = selectedDate && selectedTime && selectedTable && name && phone && guests;
 
     const convertTo24Hour = (time) => {
         const [t, modifier] = time.split(" ");
@@ -53,33 +54,59 @@ const CustomerReservations = () => {
         if (modifier === "AM" && hours === 12) hours = 0;
         return `${hours.toString().padStart(2, '0')}:${minutes}`;
     };
-
     const isTableReservedAtTime = (tableNumber) => {
-        const selectedTime24h = convertTo24Hour(selectedTime);
-        return reservations.some(res => {
-            const resTime = new Date(res.Time_in).toTimeString().slice(0, 5);
+        const selectedTime24h = convertTo24Hour(selectedTime); // The selected time in 24-hour format
+        const selectedDateStr = selectedDate; // Selected date as string (YYYY-MM-DD)
+        
+        // Convert selected time and selected date to a Date object
+        const selectedDateTime = new Date(`${selectedDateStr}T${selectedTime24h}:00`);
+    
+        console.log(`🔍 Checking if table ${tableNumber} is reserved at ${selectedDateStr} ${selectedTime24h}`);
+    
+        return reservations.some((res, index) => {
+            const resDate = new Date(res.Time_in);  // Reservation start time (UTC)
+            const resEndDate = new Date(res.Time_out);  // Reservation end time (UTC)
+            const resDateStr = resDate.toISOString().split('T')[0]; // Get the reservation date (YYYY-MM-DD)
+            
+            // Convert the reservation start time and end time from UTC to local time string
+            const resStartTime = resDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+            const resEndTime = resEndDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+    
+            
+            // Check if the selected time overlaps with the reservation time range
+            const isTimeOverlapping = (selectedDateTime >= resDate && selectedDateTime < resEndDate);
+    
             return (
                 res.Table_number === tableNumber &&
-                resTime === selectedTime24h
+                resDateStr === selectedDateStr &&
+                isTimeOverlapping
             );
         });
     };
+    
+    
+    
+    
+    
 
-    const calculateTimeOut = (timeStr) => {
+    
+    
+
+    const calculateTimeOut = (dateStr, timeStr) => {
         const [time, modifier] = timeStr.split(" ");
         let [hours, minutes] = time.split(":");
         hours = parseInt(hours);
         if (modifier === "PM" && hours !== 12) hours += 12;
         if (modifier === "AM" && hours === 12) hours = 0;
-
         minutes = parseInt(minutes);
-
-        const now = new Date();
-        const timeIn = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0));
+    
+        const [year, month, day] = dateStr.split('-').map(Number);
+        const timeIn = new Date(Date.UTC(year, month - 1, day, hours, minutes, 0));
         const timeOut = new Date(timeIn.getTime() + 2 * 60 * 60 * 1000);
-
+    
         return { timeIn, timeOut };
     };
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -92,7 +119,8 @@ const CustomerReservations = () => {
             });
 
             const customerID = customerRes.data.Customer_ID;
-            const { timeIn, timeOut } = calculateTimeOut(selectedTime);
+            
+            const { timeIn, timeOut } = calculateTimeOut(selectedDate, selectedTime);
 
             const reservationData = {
                 Customer_ID: customerID,
@@ -121,23 +149,39 @@ Reservation ID: ${res.data.reservation_id}`);
 
     return (
         <div className="reservation-section">
-            <h2>Select Reservation Time</h2>
+            <h2>Select Reservation Date</h2>
             <form className="reservation-form" onSubmit={handleSubmit}>
-                <div className="time-grid">
-                    {timeSlots.map((time) => (
-                        <button
-                            key={time}
-                            type="button"
-                            className={`time-slot-btn ${selectedTime === time ? 'selected' : ''}`}
-                            onClick={() => {
-                                setSelectedTime(time);
-                                setSelectedTable(null);
-                            }}
-                        >
-                            {time}
-                        </button>
-                    ))}
+                <div className="date-picker">
+                    <label htmlFor="reservation-date">Choose a date:</label>
+                    <input
+                        type="date"
+                        id="reservation-date"
+                        value={selectedDate}
+                        onChange={(e) => setSelectedDate(e.target.value)}
+                        required
+                    />
                 </div>
+
+                {selectedDate && (
+                    <>
+                        <h3>Select Reservation Time</h3>
+                        <div className="time-grid">
+                            {timeSlots.map((time) => (
+                                <button
+                                    key={time}
+                                    type="button"
+                                    className={`time-slot-btn ${selectedTime === time ? 'selected' : ''}`}
+                                    onClick={() => {
+                                        setSelectedTime(time);
+                                        setSelectedTable(null);  // Reset table when time is changed
+                                    }}
+                                >
+                                    {time}
+                                </button>
+                            ))}
+                        </div>
+                    </>
+                )}
 
                 {selectedTime && (
                     <>
