@@ -20,6 +20,8 @@ import Contains_drinksRoutes from "./routes/Contains_drinks.js"
 
 import parkingRoutes from "./routes/ParkingSpace.js"
 
+import bartenderCertificationsRoutes from "./routes/bartenderCertifications.js"
+
 const app = express();
 
 app.use(express.json());
@@ -44,6 +46,8 @@ app.use('/Contains_drinks',Contains_drinksRoutes);
 app.use('/Contains_dishes',Contains_dishesRoutes);
 
 app.use('/ParkingSpace', parkingRoutes);
+
+app.use('/bartenderCertifications', bartenderCertificationsRoutes);
 
 // Root test route
 app.get("/", (req, res) => {

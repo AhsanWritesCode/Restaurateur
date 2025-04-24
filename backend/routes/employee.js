@@ -3,7 +3,7 @@ import { db } from "../db.js";
 
 const router = express.Router();
 
-// all employees
+// GET all employees
 router.get('/', async (req, res) => {
     const q = "SELECT * FROM Employee";
     db.query(q, (err, data) => {
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 });
 
 
-// Add new employee
+// POST new employee by adding employee to database
 router.post('/', async (req, res) => {
     const { Employee_ID, Name, Email,Phone_number, Password, Role } = req.body;
 
@@ -24,18 +24,25 @@ router.post('/', async (req, res) => {
     });
 });
 
-// Delete employee
+// DELETE employee and related bartender certificate
 router.delete('/:id', (req, res) => {
-    const q = "DELETE FROM Employee WHERE Employee_ID = ?";
-    db.query(q, [req.params.id], (err, data) => {
-        if (err) return res.status(500).json(err);
-        res.json("Employee deleted.");
+    const deleteCertQuery = "DELETE FROM Bartender_certificates WHERE EID = ?";
+    const deleteEmpQuery = "DELETE FROM Employee WHERE Employee_ID = ?";
+
+    db.query(deleteCertQuery, [req.params.id], (err, certResult) => {
+        if (err) return res.status(500).json({ error: "Error deleting certification" });
+
+        db.query(deleteEmpQuery, [req.params.id], (err, empResult) => {
+            if (err) return res.status(500).json({ error: "Error deleting employee" });
+            res.json("Employee and certification deleted.");
+        });
     });
 });
 
 
 
-// Get one employee by ID
+
+// GET one employee by given employeeID
 router.get('/:id', (req, res) => {
     const q = "SELECT * FROM Employee WHERE Employee_ID = ?";
     db.query(q, [req.params.id], (err, data) => {
@@ -46,8 +53,9 @@ router.get('/:id', (req, res) => {
 });
 
 
-
+// PUT update employee info given employeeID
 router.put('/:id', (req, res) => {
+
     const Employee_ID = req.params.id;
     const { name, phoneNumber, email, position, password } = req.body;
 
@@ -55,7 +63,7 @@ router.put('/:id', (req, res) => {
     let setFields = ["Name = ?", "Phone_number = ?", "Email = ?", "Role = ?"];
     let queryParams = [name, phoneNumber, email, position];
 
-    // Only add password if provided
+    // Only add password if provided, if password is provided then add Password to the query
     if (password && password.trim() !== '') {
         setFields.push("Password = ?");
         queryParams.push(password);

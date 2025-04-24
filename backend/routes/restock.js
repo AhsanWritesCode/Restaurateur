@@ -3,7 +3,7 @@ import { db } from '../db.js';
 
 const router = express.Router(); // ✅ Initialize the router
 
-// GET /suppliers-with-items
+// GET suppliers-with-items
 router.get('/suppliers-with-items', (req, res) => {
     const supplierQuery = `
         SELECT s.BusinessNumber, s.Name AS SupplierName, s.PhoneNumber, s.Email, 
@@ -38,7 +38,7 @@ router.get('/suppliers-with-items', (req, res) => {
     });
 });
 
-// POST /
+// POST add in a new ingredient to the db
 router.post('/', (req, res) => {
     const { Ingredient_ID, BusinessNumber, QuantityRequested } = req.body;
 
@@ -57,7 +57,7 @@ router.post('/', (req, res) => {
     });
 });
 
-// GET /
+// GET pulls stock request data from the Restock ledger and joins with the Ingredients table and the supplier table to get ingredient name ansupplier name
 router.get('/', (req, res) => {
     const query = `
         SELECT rl.Request_ID, rl.Ingredient_ID, i.Name AS IngredientName,
@@ -75,7 +75,7 @@ router.get('/', (req, res) => {
     });
 });
 
-// PUT /:id
+// PUT change the restock ledger status
 router.put('/:id', (req, res) => {
     const { id } = req.params;
     const { Status } = req.body;

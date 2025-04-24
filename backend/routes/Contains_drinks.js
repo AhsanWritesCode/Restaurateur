@@ -5,7 +5,6 @@ const router = express.Router();
 
 // GET all drinks from Contains_drinks
 router.get("/", (req, res) => {
-  console.log("Fetching all drinks from Contains_drinks...");
   const q = "SELECT * FROM Contains_drinks";
   db.query(q, (err, data) => {
     if (err) {
@@ -19,18 +18,6 @@ router.get("/", (req, res) => {
 // POST a new drink into Contains_drinks
 router.post("/", (req, res) => {
   const { Order_number, Drink_number, Drink_name, Quantity, Price, Table_number } = req.body;
-
-  if (
-    Order_number == null ||
-    Drink_number == null ||
-    !Drink_name ||
-    Quantity == null ||
-    Price == null ||
-    Table_number == null
-  ) {
-    console.warn("Missing required fields in request body:", req.body);
-    return res.status(400).json({ error: "Missing required fields" });
-  }
 
   const q = `
     INSERT INTO Contains_drinks (Order_number, Drink_number, Drink_name, Quantity, Price, Table_number)
@@ -112,7 +99,6 @@ router.get("/BartenderWindowCompleted", (req, res) => {
     ORDER BY 
         o.Order_number;
   `;
-
   db.query(query, (err, results) => {
     if (err) {
       return res.status(500).json({ message: 'Error fetching completed orders', error: err });

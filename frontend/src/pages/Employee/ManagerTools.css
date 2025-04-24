@@ -1,0 +1,29 @@
+.manager-tools {
+    padding: 1rem;
+}
+
+.add-employee-form,
+.employee-list {
+    margin-top: 1.5rem;
+}
+
+.add-employee-form input,
+.add-employee-form select {
+    display: block;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    width: 100%;
+    max-width: 400px;
+}
+
+.employee-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.employee-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+}

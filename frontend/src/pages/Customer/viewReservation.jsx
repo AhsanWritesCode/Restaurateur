@@ -27,6 +27,19 @@ const ViewReservation = () => {
         }
     };
 
+    const formatTime = (time) => {
+        const date = new Date(time);
+        return date.toLocaleString('en-US', {
+            weekday: 'short', // "Mon"
+            year: 'numeric', // "2025"
+            month: 'short', // "Apr"
+            day: 'numeric', // "24"
+            hour: '2-digit', // "10"
+            minute: '2-digit', // "30"
+            hour12: true, // Use AM/PM
+        });
+    };
+
     return (
         <div>
             <h2>View Reservation</h2>
@@ -47,8 +60,8 @@ const ViewReservation = () => {
                     <p><strong>Customer ID:</strong> {reservation.Customer_ID}</p>
                     <p><strong>Table Number:</strong> {reservation.Table_number}</p>
                     <p><strong>Parking Spot:</strong> {reservation.Parking_spot}</p>
-                    <p><strong>Time In:</strong> {reservation.Time_in}</p>
-                    <p><strong>Time Out:</strong> {reservation.Time_out}</p>
+                    <p><strong>Time In:</strong> {formatTime(reservation.Time_in)}</p>
+                    <p><strong>Time Out:</strong> {formatTime(reservation.Time_out)}</p>
                     <p><strong>Number of Guests:</strong> {reservation.Number_Guests}</p>
 
                     <button onClick={deleteReservation}>Delete Reservation</button>

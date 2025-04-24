@@ -3,16 +3,14 @@ import { db } from "../db.js";
 
 const router = express.Router();
 
-// GET all dishes from Contains_dishes
+// GET function to get all dishes from Contains_dishes allows for
 router.get("/", (req, res) => {
-  console.log("Fetching all dishes from Contains_dishes...");
   const q = "SELECT * FROM Contains_dishes";
   db.query(q, (err, data) => {
     if (err) {
       console.error("Error fetching Contains_dishes:", err);
       return res.status(500).json({ error: "Database error" });
     }
-    console.log("Fetched data from Contains_dishes:", data);
     return res.status(200).json(data);
   });
 });
@@ -20,20 +18,6 @@ router.get("/", (req, res) => {
 // POST a new dish into Contains_dishes
 router.post("/", (req, res) => {
   const { Order_number, Dish_number, Dish_name, Quantity, Price, Table_number } = req.body;
-
-  console.log("Received request to add dish:", req.body);  // Debug line
-
-  if (
-    Order_number == null || 
-    Dish_number == null || 
-    !Dish_name || 
-    Quantity == null || 
-    Price == null || 
-    Table_number == null
-  ) {
-    console.warn("Missing required fields in request body:", req.body);
-    return res.status(400).json({ error: "Missing required fields" });
-  }
 
   const q = `
     INSERT INTO Contains_dishes (Order_number, Dish_number, Dish_name, Quantity, Price, Table_number)
@@ -45,7 +29,6 @@ router.post("/", (req, res) => {
       console.error("Error inserting into Contains_dishes:", err);
       return res.status(500).json({ error: "Database error" });
     }
-    console.log("Dish added successfully:", result);
     return res.status(201).json({ message: "Dish added to order" });
   });
 });
@@ -97,7 +80,7 @@ router.get("/CookWindow", (req, res) => {
   });
 });
 
-// GET completed dish orders for CookWindowCompleted
+// GET 'completed' dish orders for CookWindowCompleted
 router.get("/CookWindowCompleted", (req, res) => {
   const query = `
     SELECT 
@@ -127,10 +110,12 @@ router.get("/CookWindowCompleted", (req, res) => {
   });
 });
 
-
+// Marks order as complete, if order is complete it cannot be uncompleted
 router.put("/complete/:orderNumber", (req, res) => {
   const { orderNumber } = req.params;
-  const q = `UPDATE RestaurantOrder SET Cook_order_status = 'completed' WHERE Order_number = ?`;
+  const q = `UPDATE RestaurantOrder
+             SET Cook_order_status = 'completed' 
+             WHERE Order_number = ?`;
 
   db.query(q, [orderNumber], (err, result) => {
       if (err) return res.status(500).json({ message: 'Failed to complete order', error: err });

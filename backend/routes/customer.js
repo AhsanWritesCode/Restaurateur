@@ -40,4 +40,24 @@ router.post("/", (req, res) => {
     });
 });
 
+// Delete customers without any reservations using NOT EXISTS
+router.delete("/", (req, res) => {
+    const deleteQuery = `
+        DELETE FROM Customer
+        WHERE NOT EXISTS (
+            SELECT 1 FROM Reservation WHERE Reservation.Customer_ID = Customer.Customer_ID
+        )
+    `;
+
+    db.query(deleteQuery, (err, result) => {
+        if (err) {
+            console.error("Failed to delete customers without reservations:", err);
+            return res.status(500).json({ error: "Failed to delete customer data" });
+        }
+        res.json({ message: "Customers without reservations have been deleted successfully!" });
+    });
+});
+
+
+
 export default router;

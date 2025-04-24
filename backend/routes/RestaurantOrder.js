@@ -3,11 +3,25 @@ import { db } from "../db.js";
 
 const router = express.Router();
 
-// POST to create an order
+// GET all orders
+router.get("/", (req, res) => {
+    const query = "SELECT * FROM RestaurantOrder";
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error("Failed to fetch orders:", err);
+            return res.status(500).json({ error: "Database error" });
+        }
+        res.json(results);
+    });
+});
+
+
+// POST to create an order this sends items into contains_dishes and contains_drinks from the order menu
 router.post('/', (req, res) => {
     const { tableNumber, serverID, selectedDishes, selectedDrinks } = req.body;
 
-    // Calculate the total bill (sum of prices)
+    // Calculate the total bill (sum of prices for this order)
     const dishTotal = selectedDishes.reduce((total, dish) => total + dish.Price, 0);
     const drinkTotal = selectedDrinks.reduce((total, drink) => total + drink.Price, 0);
     const totalBill = dishTotal + drinkTotal;
@@ -54,9 +68,11 @@ router.post('/', (req, res) => {
         // Wait for all the insertions to complete
         Promise.all([...dishPromises, ...drinkPromises])
             .then(() => {
+                // All dish and drink insertions completed successfully
                 return res.status(201).json({ Order_number: orderNumber });
             })
             .catch(err => {
+                // If ANY of the insertions fail, this is called
                 console.error('Error inserting dishes and drinks:', err);
                 res.status(500).json({ error: 'Error inserting dishes and drinks' });
             });
@@ -84,11 +100,11 @@ router.get("/orderItems/:orderNumber", (req, res) => {
     });
 });
 
-// DELETE to remove an order by Table_number
+// DELETE to remove an order given a Table_number by clearing contains_dishes -> contains_drinks -> restaurantOrder
 router.delete('/:tableNumber', (req, res) => {
     const { tableNumber } = req.params;
 
-    // First, delete all dishes related to the table
+    // First, delete all dishes related to the table by constructing a query
     const deleteDishesQuery = "DELETE FROM Contains_dishes WHERE Table_number = ?";
     db.query(deleteDishesQuery, [tableNumber], (err, result) => {
         if (err) {
@@ -96,21 +112,21 @@ router.delete('/:tableNumber', (req, res) => {
             return res.status(500).json({ error: 'Error deleting dishes' });
         }
 
-        // Then, delete all drinks related to the table
-        const deleteDrinksQuery = "DELETE FROM Contains_drinks WHERE Table_number = ?";
-        db.query(deleteDrinksQuery, [tableNumber], (err, result) => {
-            if (err) {
-                console.error('Error deleting drinks:', err);
-                return res.status(500).json({ error: 'Error deleting drinks' });
-            }
+    // Then, delete all drinks related to the table
+    const deleteDrinksQuery = "DELETE FROM Contains_drinks WHERE Table_number = ?";
+    db.query(deleteDrinksQuery, [tableNumber], (err, result) => {
+        if (err) {
+            console.error('Error deleting drinks:', err);
+            return res.status(500).json({ error: 'Error deleting drinks' });
+        }
 
-            // Finally, delete the order itself
-            const deleteOrderQuery = "DELETE FROM RestaurantOrder WHERE Table_number = ?";
-            db.query(deleteOrderQuery, [tableNumber], (err, result) => {
-                if (err) {
-                    console.error('Error deleting order:', err);
-                    return res.status(500).json({ error: 'Error deleting order' });
-                }
+     // Finally, delete the order itself
+     const deleteOrderQuery = "DELETE FROM RestaurantOrder WHERE Table_number = ?";
+     db.query(deleteOrderQuery, [tableNumber], (err, result) => {
+         if (err) {
+            console.error('Error deleting order:', err);
+             return res.status(500).json({ error: 'Error deleting order' });
+        }
 
                 // Send response indicating the order has been deleted
                 return res.status(200).json({ message: `Order for table ${tableNumber} deleted successfully` });
@@ -119,6 +135,5 @@ router.delete('/:tableNumber', (req, res) => {
     });
 });
 
-// Other routes remain unchanged...
 
 export default router;

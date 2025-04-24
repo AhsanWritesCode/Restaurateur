@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
     });
 });
 
-// Add shift
+// POST Add shift given an employee ID
 router.post("/", (req, res) => {
     const { employeeId, TimeIn, TimeOut, Notes } = req.body;
 
@@ -55,7 +55,7 @@ router.get("/:employeeId", (req, res) => {
     });
 });
 
-// Delete shift
+// Delete shift given a shift_ID
 router.delete("/:id", (req, res) => {
     const q = "DELETE FROM Shifts WHERE Shift_ID = ?";
     db.query(q, [req.params.id], (err, data) => {

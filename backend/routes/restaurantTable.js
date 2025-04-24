@@ -22,6 +22,8 @@ router.post("/", (req, res) => {
     });
 });
 
+
+// DELETE strong delete to ensure no data is left over. When a table is deleted any orders, contains_dishes, contains_drinks, reservations are deleted.
 router.delete("/:tableNumber", (req, res) => {
     const tableNumber = req.params.tableNumber;
 

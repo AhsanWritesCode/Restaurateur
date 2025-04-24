@@ -5,37 +5,51 @@ const CustomerReservations = () => {
     const [reservations, setReservations] = useState([]);
     const [error, setError] = useState('');
 
+    // Fetch all reservations when component mounts
     useEffect(() => {
         const fetchReservations = async () => {
             try {
                 const response = await axios.get("http://localhost:8800/reservations");
                 setReservations(response.data);
             } catch (err) {
-                setError('Failed to fetch reservations');
+                setError('Failed to fetch reservations 😞');
             }
         };
 
         fetchReservations();
     }, []);
 
+    // Handler to delete a reservation
     const deleteReservation = async (reservationNo) => {
         try {
             const response = await axios.delete(`http://localhost:8800/reservations/${reservationNo}`);
-            alert(response.data.message); // Success message
-            setReservations(reservations.filter(res => res.Reservation_no !== reservationNo)); // Remove reservation from the list
+            alert(response.data.message);
+            setReservations((prev) => prev.filter(res => res.Reservation_no !== reservationNo));
         } catch (err) {
-            alert('Failed to delete reservation');
+            alert('Uh-oh, failed to delete reservation.');
         }
+    };
+
+    // Helper to format timestamps nicely
+    const formatDateTime = (dateTimeString) => {
+        return new Date(dateTimeString).toLocaleString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        });
     };
 
     return (
         <div>
             <h2>Reservations List</h2>
 
-            {error && <p>{error}</p>}
+            {error && <p style={{ color: 'red' }}>{error}</p>}
 
             {reservations.length === 0 ? (
-                <p>No reservations found</p>
+                <p>No reservations found at the moment.</p>
             ) : (
                 <ul>
                     {reservations.map((reservation) => (
@@ -45,8 +59,8 @@ const CustomerReservations = () => {
                                 <p><strong>Customer ID:</strong> {reservation.Customer_ID}</p>
                                 <p><strong>Table Number:</strong> {reservation.Table_number}</p>
                                 <p><strong>Parking Spot:</strong> {reservation.Parking_spot}</p>
-                                <p><strong>Time In:</strong> {reservation.Time_in}</p>
-                                <p><strong>Time Out:</strong> {reservation.Time_out}</p>
+                                <p><strong>Time In:</strong> {formatDateTime(reservation.Time_in)}</p>
+                                <p><strong>Time Out:</strong> {formatDateTime(reservation.Time_out)}</p>
                                 <p><strong>Number of Guests:</strong> {reservation.Number_Guests}</p>
 
                                 <button onClick={() => deleteReservation(reservation.Reservation_no)}>

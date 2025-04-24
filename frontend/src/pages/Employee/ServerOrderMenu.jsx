@@ -2,37 +2,30 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ServerOrderMenu.css';
 
-const ServerOrderMenu = () => {
+const ServerOrderMenu = ({ serverId }) => {
   const [tables, setTables] = useState([]); // List of tables
   const [selectedTable, setSelectedTable] = useState(null); // Selected table
   const [dishes, setDishes] = useState([]); // List of dishes
   const [drinks, setDrinks] = useState([]); // List of drinks
   const [selectedItems, setSelectedItems] = useState({ dishes: [], drinks: [] }); // Selected items for the order
-  const [serverID, setServerID] = useState(1); // Hardcoded server ID (replace with actual user ID)
+  const [serverID, setServerID] = useState(serverId);
   const [bill, setBill] = useState({ dishes: [], drinks: [] }); // Bill data (ordered dishes and drinks)
 
   useEffect(() => {
     // Fetch list of tables when the component mounts
-    console.log("Fetching list of tables..."); // Debug
     axios.get('http://localhost:8800/RestaurantTable')
-      .then(res => {
-        setTables(res.data);
-        console.log("Tables fetched:", res.data); // Debug
-      })
+      .then(res => setTables(res.data))
       .catch(err => console.error('Error fetching tables:', err));
   }, []);
 
   useEffect(() => {
     if (selectedTable) {
-      console.log("Selected table:", selectedTable); // Debug
       // Fetch dishes and drinks for the selected table using two parallel requests
       axios.all([ 
         axios.get(`http://localhost:8800/Contains_dishes/byTable/${selectedTable}`), 
         axios.get(`http://localhost:8800/Contains_drinks/byTable/${selectedTable}`) 
       ])
       .then(axios.spread((dishesRes, drinksRes) => {
-        console.log("Dishes:", dishesRes.data); // Log the dishes data
-        console.log("Drinks:", drinksRes.data); // Log the drinks data
         setBill({
           dishes: dishesRes.data,
           drinks: drinksRes.data
@@ -43,30 +36,21 @@ const ServerOrderMenu = () => {
   }, [selectedTable]);
 
   const handleTableSelect = (tableNumber) => {
-    console.log("Table selected:", tableNumber); // Debug
     setSelectedTable(tableNumber); // Set the selected table
     fetchMenuItems();
   };
 
   const fetchMenuItems = () => {
-    console.log("Fetching menu items..."); // Debug
     axios.get('http://localhost:8800/Dishes')
-      .then(res => {
-        setDishes(res.data);
-        console.log("Dishes fetched:", res.data); // Debug
-      })
+      .then(res => setDishes(res.data))
       .catch(err => console.error('Error fetching dishes:', err));
 
     axios.get('http://localhost:8800/Drinks')
-      .then(res => {
-        setDrinks(res.data);
-        console.log("Drinks fetched:", res.data); // Debug
-      })
+      .then(res => setDrinks(res.data))
       .catch(err => console.error('Error fetching drinks:', err));
   };
 
   const handleAddItem = (item, type) => {
-    console.log(`Adding ${item.Item_name} to ${type}`); // Debug
     setSelectedItems(prev => ({
       ...prev,
       [type]: [...prev[type], item],
@@ -74,7 +58,6 @@ const ServerOrderMenu = () => {
   };
 
   const handleRemoveItem = (item, type) => {
-    console.log(`Removing ${item.Item_name} from ${type}`); // Debug
     setSelectedItems(prev => ({
       ...prev,
       [type]: prev[type].filter(i => i.Menu_number !== item.Menu_number),
@@ -97,7 +80,6 @@ const ServerOrderMenu = () => {
       cookOrderStatus: 'pending'
     };
 
-    console.log("Submitting order:", orderData); // Debug
     axios.post('http://localhost:8800/RestaurantOrder', orderData)
       .then(response => {
         alert(`Order ${response.data.Order_number} placed successfully!`);
@@ -137,15 +119,11 @@ const ServerOrderMenu = () => {
       total += groupedItems[key].price;
     }
 
-    console.log("Calculated total:", total.toFixed(2)); // Debug
     return total.toFixed(2);
   };
 
-
-  // Handle deleting an order for the selected table
   const handleDeleteOrder = () => {
     if (selectedTable) {
-      console.log(`Deleting order for table ${selectedTable}...`); // Debug
       axios.delete(`http://localhost:8800/RestaurantOrder/${selectedTable}`)
         .then(() => {
           alert(`Order for Table ${selectedTable} deleted successfully!`);

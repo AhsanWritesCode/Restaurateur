@@ -15,6 +15,8 @@ import BartenderWindow from './bartenderWindow'
 import CookWindow from './cookWindow'
 import EditReservation from './editReservation';
 import EmployeeParking from './EmployeeParking';
+import CustomerHistory from './CustomerHistory';
+import BartenderCertifications from './bartenderCertifications';
 
 
 
@@ -34,6 +36,7 @@ const EmployeePage = () => {
     const [employeeID, setEmployeeID] = useState(''); // Store the employeeId as a string
     const [tables, setTables] = useState([]);
     const [newTable, setNewTable] = useState({ tableNumber: '', vacancy: 1 });
+
     
 
     //INFO WIP
@@ -108,10 +111,6 @@ const EmployeePage = () => {
         }
     };
 
-    const handleLogout = () => {
-        setIsLoggedIn(false);
-        setActiveTab('signin');
-    };
 
     //========================================================
 
@@ -136,12 +135,15 @@ const EmployeePage = () => {
                         {activeTab === 'viewTables' && (
                             <EmployeeTables tables={tables} setTables={setTables} newTable={newTable} setNewTable={setNewTable} />
                         )}
-                        {activeTab === 'managerTools' && <ManagerTools />}
+                        {activeTab === 'managerTools' && <ManagerTools EID={employeeID} />}
                         {activeTab === 'orderMenu' && <ServerOrderMenu serverId={employeeID} />}
                         {activeTab === 'bartenderWindow' && <BartenderWindow />}
                         {activeTab === 'cookWindow' && <CookWindow />}
+                        {activeTab === 'CustomerHistory' && <CustomerHistory />} 
                         {activeTab === 'editReservations' && <EditReservation />}
-                        {activeTab === 'parkingManagement' && <EmployeeParking />} {/* New Parking Tab */}
+                        {activeTab === 'parkingManagement' && <EmployeeParking />} 
+                        {activeTab === 'BartenderCertifications' && <BartenderCertifications BartenderId={employeeID}/>}
+
 
                     </div>
                 </>

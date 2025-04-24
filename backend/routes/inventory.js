@@ -3,7 +3,7 @@ import { db } from "../db.js";
 
 const router = express.Router();
 
-// Route to get all ingredients
+// GET all ingredients
 router.get("/", (req, res) => {
     const query = "SELECT * FROM Ingredients";
 
@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
 });
 
 
-// Update quantity for a specific ingredient
+// PUT update quantity for a specific ingredient
 router.put("/:id", (req, res) => {
     const ingredientId = req.params.id;
     const newQuantity = req.body.quantity;
