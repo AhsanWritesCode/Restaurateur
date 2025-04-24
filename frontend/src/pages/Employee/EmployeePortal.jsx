@@ -9,7 +9,6 @@ import LogHours from './LogHours';
 import EmployeeProfile from './EmployeeProfile';
 import EmployeeInventory from './EmployeeInventory';
 import EmployeeTables from './EmployeeTables';
-import ManagerTools from './ManagerTools';
 import ServerOrderMenu from './ServerOrderMenu';
 import BartenderWindow from './bartenderWindow'
 import CookWindow from './cookWindow'
@@ -136,7 +135,6 @@ const EmployeePage = () => {
                         {activeTab === 'viewTables' && (
                             <EmployeeTables tables={tables} setTables={setTables} newTable={newTable} setNewTable={setNewTable} />
                         )}
-                        {activeTab === 'managerTools' && <ManagerTools />}
                         {activeTab === 'orderMenu' && <ServerOrderMenu serverId={employeeID} />}
                         {activeTab === 'bartenderWindow' && <BartenderWindow />}
                         {activeTab === 'cookWindow' && <CookWindow />}

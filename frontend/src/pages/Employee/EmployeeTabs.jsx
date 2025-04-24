@@ -12,7 +12,6 @@ const EmployeeTabs = ({ activeTab, setActiveTab, employeeData }) => (
 
         {(employeeData?.position === 'Admin' || employeeData?.position === 'Manager') && (
             <>
-                <button className={`tab ${activeTab === 'managerTools' ? 'active' : ''}`} onClick={() => setActiveTab('managerTools')}>Manager Tools</button>
                 <button className={`tab ${activeTab === 'editReservations' ? 'active' : ''}`} onClick={() => setActiveTab('editReservations')}>Edit Reservations</button>
                 <button className={`tab ${activeTab === 'parkingManagement' ? 'active' : ''}`} onClick={() => setActiveTab('parkingManagement')}>Parking Management</button> {/* New tab */}
             </>
