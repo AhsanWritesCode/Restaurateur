@@ -9,7 +9,6 @@ import LogHours from './LogHours';
 import EmployeeProfile from './EmployeeProfile';
 import EmployeeInventory from './EmployeeInventory';
 import EmployeeTables from './EmployeeTables';
-import ManagerTools from './ManagerTools';
 import ServerOrderMenu from './ServerOrderMenu';
 import BartenderWindow from './bartenderWindow'
 import CookWindow from './cookWindow'
