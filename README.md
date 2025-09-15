@@ -1,4 +1,4 @@
-# Restauranteur
+# Restaurateur
 
 A platform that allows employees to sign in, log their hours, and view orders placed by customers while also allowing customers to view both menu items offered by restaurants and parking availability. 
 
